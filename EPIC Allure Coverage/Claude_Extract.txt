@@ -1,0 +1,131 @@
+
+# pip install pandas plotly kaleido
+
+
+
+import pandas as pd
+import plotly.graph_objs as go
+import plotly.express as px
+import plotly.io as pio
+from typing import Dict, Any
+
+class TestAutomationAnalyzer:
+    def __init__(self, csv_path: str):
+        # Read and process CSV
+        self.df = pd.read_csv(csv_path)
+        self.consolidated_df = self._consolidate_epics()
+
+    def _consolidate_epics(self) -> pd.DataFrame:
+        # Aggregate test results by EPIC
+        consolidated = self.df.groupby('Epic').agg({
+            'PASSED': 'sum',
+            'FAILED': 'sum',
+            'BROKEN': 'sum',
+            'SKIPPED': 'sum',
+            'UNKNOWN': 'sum'
+        }).reset_index()
+
+        # Calculate total tests and pass rate
+        consolidated['totalTests'] = consolidated[['PASSED', 'FAILED', 'BROKEN', 'SKIPPED', 'UNKNOWN']].sum(axis=1)
+        consolidated['passRate'] = (consolidated['PASSED'] / consolidated['totalTests'] * 100).round(2)
+        
+        # Determine status
+        consolidated['status'] = consolidated['passRate'].apply(self._determine_status)
+        
+        return consolidated
+
+    def _determine_status(self, pass_rate: float) -> str:
+        if pass_rate >= 95:
+            return 'Excellent'
+        elif pass_rate >= 80:
+            return 'Needs Attention'
+        else:
+            return 'Critical'
+
+    def generate_epic_summary_table(self) -> go.Figure:
+        # Create interactive table with Plotly
+        fig = go.Figure(data=[go.Table(
+            header=dict(values=['Epic', 'Total Tests', 'Passed', 'Failed', 'Broken', 'Skipped', 'Pass Rate', 'Status'],
+                        fill_color='paleturquoise',
+                        align='center'),
+            cells=dict(values=[
+                self.consolidated_df['Epic'],
+                self.consolidated_df['totalTests'],
+                self.consolidated_df['PASSED'],
+                self.consolidated_df['FAILED'],
+                self.consolidated_df['BROKEN'],
+                self.consolidated_df['SKIPPED'],
+                self.consolidated_df['passRate'].apply(lambda x: f'{x}%'),
+                self.consolidated_df['status']
+            ],
+                fill_color=[
+                    'white',
+                    'white',
+                    'lightgreen',
+                    'lightcoral',
+                    'lightsalmon',
+                    'lightblue',
+                    'white',
+                    self.consolidated_df['status'].apply(lambda x: 'lightgreen' if x == 'Excellent' 
+                                                         else 'yellow' if x == 'Needs Attention' 
+                                                         else 'red')
+                ],
+                align='center')
+        )])
+        
+        fig.update_layout(
+            title='Test Automation EPIC Summary',
+            height=600,
+            width=1200
+        )
+        
+        return fig
+
+    def save_epic_summary_table(self, output_path: str = 'epic_summary_table.png'):
+        # Save table as static image
+        fig = self.generate_epic_summary_table()
+        pio.write_image(fig, output_path)
+        print(f"Table image saved to {output_path}")
+
+    def generate_test_status_pie_chart(self) -> go.Figure:
+        # Aggregate test statuses
+        status_data = {
+            'Passed': self.consolidated_df['PASSED'].sum(),
+            'Failed': self.consolidated_df['FAILED'].sum(),
+            'Broken': self.consolidated_df['BROKEN'].sum(),
+            'Skipped': self.consolidated_df['SKIPPED'].sum(),
+            'Unknown': self.consolidated_df['UNKNOWN'].sum()
+        }
+        
+        fig = px.pie(
+            values=list(status_data.values()),
+            names=list(status_data.keys()),
+            title='Test Status Distribution',
+            color_discrete_sequence=px.colors.qualitative.Pastel
+        )
+        
+        return fig
+
+    def generate_epic_test_volume_bar_chart(self) -> go.Figure:
+        # Bar chart of test volumes by EPIC
+        fig = px.bar(
+            self.consolidated_df, 
+            x='Epic', 
+            y='totalTests',
+            title='Test Volume by EPIC',
+            labels={'totalTests': 'Total Tests', 'Epic': 'EPIC'}
+        )
+        
+        return fig
+
+# Usage example
+if __name__ == '__main__':
+    # Replace with your actual CSV path
+    analyzer = TestAutomationAnalyzer('IH Application weekly test automation results grouped by JIRA EPIC.csv')
+    
+    # Generate and save table image
+    analyzer.save_epic_summary_table()
+    
+    # Optional: Show or save other charts
+    # analyzer.generate_test_status_pie_chart().show()
+    # analyzer.generate_epic_test_volume_bar_chart().show()

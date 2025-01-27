@@ -1,0 +1,5 @@
+As a Python developer I want to extend the code in the attached Python .py file so that it does not just generate an image file 
+but is also adds the EPIC Summary data from the attached spreadsheet into an EXCEL spreadsheet. The layout of the data in the 
+XL file should be same as the in the image file. However, in both the image file the data should be sorted by the 'Status' column 
+and totals should be added at the end of all columns apart from 'Epic', 'pass Rate' and 'Status'. Can you amend the python code 
+and provide it in a new .py file? 
