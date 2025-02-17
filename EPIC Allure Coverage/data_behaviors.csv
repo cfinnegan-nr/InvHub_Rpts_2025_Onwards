@@ -1,0 +1,118 @@
+Row Labels,Sum of PASSED,Sum of FAILED,Sum of BROKEN,Sum of SKIPPED
+API Testing,182,41,7,9
+"Endpoints group: `config-manager`, `role-management`, `service-discovery`, `subject-event-log`, `upload`",4,2,0,0
+`Config-manager` endpoints group,4,2,0,0
+Endpoints group: `Copilot-Answers`,30,12,0,0
+Create subject Question and Answer,23,11,0,0
+Get Stored Questions and Answers,2,0,0,0
+Remove subject Question and Answer,2,1,0,0
+Remove subject web search,3,0,0,0
+Endpoints group: `Event-ingestion`,2,5,2,0
+Ingest `Detection` Events,0,1,1,0
+Ingest `Subject Updated` Events,1,1,1,0
+Test `Status` endpoint,1,3,0,0
+Endpoints group: `event-type`,18,0,0,0
+Create event-type,2,0,0,0
+Create event-type validation,12,0,0,0
+Delete event-type,1,0,0,0
+Get event-types,1,0,0,0
+Update event-type,2,0,0,0
+"Endpoints group: `Open-Investigations-Refresh`, `Open-Investigations-Worklist-Refresh`",2,0,0,0
+Investigations Refresh,2,0,0,0
+"Endpoints group: `Open-Investigations-Search`, `Open-Investigations-Worklist-Refresh`",6,0,0,0
+Investigations Search,6,0,0,0
+Endpoints group: `Organisation-Unit`,4,0,0,0
+Create organisation unit,3,0,0,0
+Get root organisation unit,1,0,0,0
+Endpoints group: `screen-locale`,11,0,0,0
+(blank),11,0,0,0
+Endpoints group: `Subject Web Search`,22,0,0,0
+Create subject web search,20,0,0,0
+Get subject web searches list,2,0,0,0
+Endpoints group: `subject-content`,13,0,0,0
+Create a new attachment for a given subject,3,0,0,0
+Create a new note for a given subject,2,0,0,0
+Get the note for a given subject,2,0,0,0
+Get/Download Subject Attachment,4,0,0,0
+Retrieve all the contents for a given subject,2,0,0,0
+Endpoints group: `Subject-Detections`,8,0,0,0
+Latest CDD Risk Score for a given subject,8,0,0,0
+Endpoints group: `Subject-narrative`,4,0,0,0
+Get narrative by subject ID,2,0,0,0
+Save narrative for a given subject,2,0,0,0
+Endpoints group: `subject-payments`,2,2,0,0
+Get recent payments,2,2,0,0
+Endpoints group: `Subjects Tasks`,23,5,1,9
+Add tag to a task,5,0,0,0
+Complete Task,4,1,0,0
+Create Subject Task,6,2,0,0
+Get Subject Open Tasks Count,1,2,0,0
+Get Tasks,7,0,0,0
+Refer task,0,0,1,9
+Endpoints group: `subjects`,6,8,0,0
+Subject Summary,1,0,0,0
+Subject Task Actions,1,4,0,0
+(blank),4,4,0,0
+Endpoints group: `Transactions-ingestion`,0,1,2,0
+INVHUB-13724 Provide actual Transaction Ingestion handling as part of Transaction Service,0,0,1,0
+INVHUB-14022 Event Ingestion Status support,0,1,1,0
+Endpoints group: `user-config`,6,0,0,0
+Creates/Modifies user config,4,0,0,0
+Removes user config,1,0,0,0
+Retrieves user config,1,0,0,0
+Endpoints group: `Users`,15,6,2,0
+Create User,7,6,1,0
+Delete User,2,0,0,0
+Get single User,2,0,0,0
+Get Users,1,0,0,0
+Update User,3,0,1,0
+Endpoints group: `Webhook`,1,0,0,0
+Get Webhook Event,1,0,0,0
+"Initiating a Disclosure, data collection and error path",5,0,0,0
+Disclosure Initiation,5,0,0,0
+API Testing: GraphQL,163,6,1,0
+Access policy group,13,0,0,0
+Edit an `AccessPolicy`,9,0,0,0
+(blank),4,0,0,0
+Event subscriber group,8,0,0,0
+(blank),8,0,0,0
+Feature group,4,0,0,0
+(blank),4,0,0,0
+Financial Crime Type,1,0,0,0
+Retrieve list of financial crime types,1,0,0,0
+Log group,2,0,0,0
+(blank),2,0,0,0
+Login group,18,0,0,0
+Login with code to access protected resources,5,0,0,0
+Refresh token,4,0,0,0
+Sign out and revoke all active tokens,1,0,0,0
+(blank),8,0,0,0
+OrganisationUnit group,18,0,0,0
+Update an `OrganisationUnit,14,0,0,0
+(blank),4,0,0,0
+Queue group,8,0,0,0
+(blank),8,0,0,0
+Role group,26,4,1,0
+Retrieve a `Role`s Permission by its `id`,9,3,1,0
+Retrieve list of Roles,13,0,0,0
+Update role,2,1,0,0
+(blank),2,0,0,0
+Settings group,18,0,0,0
+(blank),18,0,0,0
+System group,21,0,0,0
+Create a single `KeyValue`,2,0,0,0
+Create Locales for a given language code,2,0,0,0
+Retrieve a list of `KeyValue` by key and version (optional),5,0,0,0
+(blank),12,0,0,0
+Team,10,1,0,0
+Create a team,1,1,0,0
+Remove users from team,2,0,0,0
+(blank),7,0,0,0
+Team group,2,1,0,0
+Update a team,0,1,0,0
+(blank),2,0,0,0
+User group,8,0,0,0
+(blank),8,0,0,0
+User subgroup,6,0,0,0
+(blank),6,0,0,0
+Grand Total,345,47,8,9

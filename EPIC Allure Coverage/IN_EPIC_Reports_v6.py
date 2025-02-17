@@ -17,11 +17,12 @@ class TestAutomationAnalyzer:
             'PASSED': 'sum',
             'FAILED': 'sum',
             'BROKEN': 'sum',
-            'SKIPPED': 'sum',
-            'UNKNOWN': 'sum'
+            'SKIPPED': 'sum'#,
+            #'UNKNOWN': 'sum'
         }).reset_index()
 
-        consolidated['totalTests'] = consolidated[['PASSED', 'FAILED', 'BROKEN', 'SKIPPED', 'UNKNOWN']].sum(axis=1)
+        #consolidated['totalTests'] = consolidated[['PASSED', 'FAILED', 'BROKEN', 'SKIPPED', 'UNKNOWN']].sum(axis=1)
+        consolidated['totalTests'] = consolidated[['PASSED', 'FAILED', 'BROKEN', 'SKIPPED']].sum(axis=1)
         consolidated['passRate'] = (consolidated['PASSED'] / consolidated['totalTests'] * 100).round(2)
         consolidated['status'] = consolidated['passRate'].apply(self._determine_status)
         consolidated.sort_values(by='status', inplace=True)
@@ -40,14 +41,15 @@ class TestAutomationAnalyzer:
         print("Generating table plot...")
 
         # Add totals row
-        totals = self.consolidated_df[['PASSED', 'FAILED', 'BROKEN', 'SKIPPED', 'UNKNOWN', 'totalTests']].sum()
+        # totals = self.consolidated_df[['PASSED', 'FAILED', 'BROKEN', 'SKIPPED', 'UNKNOWN', 'totalTests']].sum()
+        totals = self.consolidated_df[['PASSED', 'FAILED', 'BROKEN', 'SKIPPED', 'totalTests']].sum()
         totals_row = pd.DataFrame({
             'Epic': ['TOTAL'],
             'PASSED': [totals['PASSED']],
             'FAILED': [totals['FAILED']],
             'BROKEN': [totals['BROKEN']],
             'SKIPPED': [totals['SKIPPED']],
-            'UNKNOWN': [totals['UNKNOWN']],
+            #'UNKNOWN': [totals['UNKNOWN']],
             'totalTests': [totals['totalTests']],
             'passRate': [''],
             'status': ['']
@@ -59,7 +61,8 @@ class TestAutomationAnalyzer:
         ax.axis('tight')
         ax.axis('off')
 
-        column_labels = ['Epic', 'Passed', 'Failed', 'Broken', 'Skipped', 'Unknown', 'Total Tests', 'Pass Rate %', 'Status']
+        #column_labels = ['Epic', 'Passed', 'Failed', 'Broken', 'Skipped', 'Unknown', 'Total Tests', 'Pass Rate %', 'Status']
+        column_labels = ['Epic', 'Passed', 'Failed', 'Broken', 'Skipped', 'Total Tests', 'Pass Rate %', 'Status']
         if len(final_df.columns) != len(column_labels):
             raise ValueError("Mismatch between DataFrame columns and column labels")
 
@@ -107,21 +110,33 @@ class TestAutomationAnalyzer:
 
         print("Table plot generated.")
 
-    def save_epic_summary_table_plot(self, output_path: str = 'IH_Epic_Summary_Table_cf_v1-0_270125.png'):
+    def save_epic_summary_table_plot(self, output_path: str = None):
+        if output_path is None:
+            from datetime import datetime
+            date_suffix = datetime.now().strftime('%d%m%y')
+            output_path = f'IH_Epic_Summary_Table_cf_v1-0_{date_suffix}.png'
+        
         self.generate_epic_summary_table_plot()
         plt.savefig(output_path, bbox_inches='tight')
         plt.close()
         print(f"Table image saved to {output_path}")
 
-    def save_epic_summary_to_excel(self, output_excel_path: str = 'IH_Epic_Summary_XL_cf_v1-0_270125.xlsx'):
-        totals = self.consolidated_df[['PASSED', 'FAILED', 'BROKEN', 'SKIPPED', 'UNKNOWN', 'totalTests']].sum()
+    def save_epic_summary_to_excel(self, output_excel_path: str = None):
+        if output_excel_path is None:
+            from datetime import datetime
+            date_suffix = datetime.now().strftime('%d%m%y')
+            output_excel_path = f'IH_Epic_Summary_XL_cf_v1-0_{date_suffix}.xlsx'
+
+
+        #totals = self.consolidated_df[['PASSED', 'FAILED', 'BROKEN', 'SKIPPED', 'UNKNOWN', 'totalTests']].sum()
+        totals = self.consolidated_df[['PASSED', 'FAILED', 'BROKEN', 'SKIPPED', 'totalTests']].sum()
         totals_row = pd.DataFrame({
             'Epic': ['TOTAL'],
             'PASSED': [totals['PASSED']],
             'FAILED': [totals['FAILED']],
             'BROKEN': [totals['BROKEN']],
             'SKIPPED': [totals['SKIPPED']],
-            'UNKNOWN': [totals['UNKNOWN']],
+            #clear'UNKNOWN': [totals['UNKNOWN']],
             'totalTests': [totals['totalTests']],
             'passRate': [''],
             'status': ['']
